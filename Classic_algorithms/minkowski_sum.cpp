@@ -4,10 +4,9 @@
 
 using namespace std;
 
-// Print 2D vectors coordinate values
 void print2DVector(vector<vector<int>> vec)
 {
-    // Sorting the vector for grading purpose
+
     sort(vec.begin(), vec.end());
     for (int i = 0; i < vec.size(); ++i)
     {
@@ -19,19 +18,15 @@ void print2DVector(vector<vector<int>> vec)
     }
 }
 
-void delete_duplicate(vector<vector<int>> &C)
+vector<vector<int>> delete_duplicate(vector<vector<int>> &C)
 {
     sort(C.begin(), C.end());
-    vector<vector<int>> Cn;
     for (int i = 0; i < C.size() - 1; i++)
     {
-        if (C[i] != C[i + 1])
-        {
-            Cn.push_back(C[i]);
-        }
+        if (C[i] == C[i + 1])
+            C.erase(C.begin() + i);
     }
-    Cn.push_back(C[C.size() - 1]);
-    print2DVector(Cn);
+    return C;
 }
 
 vector<vector<int>> minkowski_sum(vector<vector<int>> A, vector<vector<int>> B)
@@ -59,13 +54,15 @@ int main()
          {2, 3},
          {1, 2},
          {3, 1}};
+
     // Compute the minkowski sum of triangle A and B
     // vector<vector<int>> C;
     // C = minkowski_sum(A, B);
 
     // // Print the resulting vector
-    delete_duplicate(S);
+    // delete_duplicate(S);
     // print2DVector(B);
+    print2DVector(delete_duplicate(S));
 
     return 0;
 }
