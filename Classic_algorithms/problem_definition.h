@@ -13,10 +13,22 @@ public:
                                                            grid_(grid)
     {
     }
+    int getHeight()
+    {
+        return this->height_;
+    }
+    int getWidth()
+    {
+        return this->width_;
+    }
+    vector<vector<int>> getGrid()
+    {
+        return this->grid_;
+    }
 
 private:
-    int height_;
-    int width_;
+    const int height_;
+    const int width_;
     vector<vector<int>> grid_;
 };
 
@@ -29,6 +41,23 @@ public:
         this->goalPosition_ = {4, 5};
         this->movementDirection_ = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
         this->movementArrows_ = {'^', '<', 'v', '>'};
+        this->movementCost_ = 1;
+    }
+    pair<int, int> getStartPosition()
+    {
+        return this->startPosition_;
+    }
+    pair<int, int> getGoalPosition()
+    {
+        return this->goalPosition_;
+    }
+    vector<vector<int>> getMovementDirections()
+    {
+        return this->movementDirection_;
+    }
+    int getMovementCost()
+    {
+        return this->movementCost_;
     }
 
 private:
