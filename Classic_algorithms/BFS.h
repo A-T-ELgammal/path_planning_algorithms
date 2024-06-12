@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "problem_definition.h"
+#include <queue>
 
 void search(Map &map, Planner &planner)
 {
@@ -13,8 +14,8 @@ void search(Map &map, Planner &planner)
     int g = 0;
 
     // store the expansions
-    vector<vector<int>> open;
-    open.push_back({g, x, y});
+    priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> open;
+    open.push({g, x, y});
 
     // Flags
     bool found = false;
@@ -24,7 +25,6 @@ void search(Map &map, Planner &planner)
     int y2;
 
     while (!found && !resign)
-    // for (int i = 0; i < 5; i++)
     {
         if (open.size() == 0)
         {
@@ -33,11 +33,9 @@ void search(Map &map, Planner &planner)
         }
         else
         {
-            sort(open.begin(), open.end());
-            reverse(open.begin(), open.end());
             vector<int> next;
-            next = open.back();
-            open.pop_back();
+            next = open.top();
+            open.pop();
 
             x = next[1];
             y = next[2];
@@ -60,7 +58,7 @@ void search(Map &map, Planner &planner)
                         if (closed[x2][y2] == 0 and map.getGrid()[x2][y2] == 0)
                         {
                             int g2 = g + planner.getMovementCost();
-                            open.push_back({g2, x2, y2});
+                            open.push({g2, x2, y2});
                             closed[x2][y2] = 1;
                         }
                     }
@@ -68,8 +66,6 @@ void search(Map &map, Planner &planner)
             }
         }
     }
-    cout << "open list" << endl;
-    print2DVector(open);
     cout << "closed list " << endl;
     print2DVector(closed);
 }
