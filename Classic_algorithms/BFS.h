@@ -17,9 +17,12 @@ void search(Map &map, Planner &planner)
     priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> open;
     open.push({g, x, y});
 
+    vector<vector<int>> expand(map.getHeight(), vector<int>(map.getWidth(), -1));
+
     // Flags
     bool found = false;
     bool resign = false;
+    int count = 0;
 
     int x2;
     int y2;
@@ -40,6 +43,9 @@ void search(Map &map, Planner &planner)
             x = next[1];
             y = next[2];
             g = next[0];
+
+            expand[x][y] = count;
+            count += 1;
 
             if (x == planner.getGoalPosition().first && y == planner.getGoalPosition().second)
             {
@@ -68,4 +74,7 @@ void search(Map &map, Planner &planner)
     }
     cout << "closed list " << endl;
     print2DVector(closed);
+    cout << "/////////////////" << endl;
+    cout << "expand list" << endl;
+    print2DVector(expand);
 }
