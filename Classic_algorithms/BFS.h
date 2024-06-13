@@ -17,7 +17,12 @@ void search(Map &map, Planner &planner)
     priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> open;
     open.push({g, x, y});
 
+    // store the expand order
     vector<vector<int>> expand(map.getHeight(), vector<int>(map.getWidth(), -1));
+
+    // store the movement direction
+    vector<vector<int>> dir(map.getHeight(), vector<int>(map.getWidth(), '-'));
+    dir[planner.getGoalPosition().first][planner.getGoalPosition().second] = '*';
 
     // Flags
     bool found = false;
@@ -66,15 +71,35 @@ void search(Map &map, Planner &planner)
                             int g2 = g + planner.getMovementCost();
                             open.push({g2, x2, y2});
                             closed[x2][y2] = 1;
+                            dir[x2][y2] = i;
                         }
                     }
                 }
             }
         }
     }
-    cout << "closed list " << endl;
+    vector<vector<string>> policy(map.getHeight(), vector<string>(map.getWidth(), "-"));
+    x = planner.getGoalPosition().first;
+    y = planner.getGoalPosition().second;
+    policy[x][y] = '*';
+
+    while (x != planner.getStartPosition().first or y != planner.getStartPosition().second)
+    {
+        x2 = x - planner.getMovementDirections()[dir[x][y]][0];
+        y2 = y - planner.getMovementDirections()[dir[x][y]][1];
+        policy[x2][y2] = planner.getMovementArrows()[dir[x][y]];
+        x = x2, y = y2;
+    }
+
+    cout << "closed list " << endl
+         << endl;
     print2DVector(closed);
     cout << "/////////////////" << endl;
-    cout << "expand list" << endl;
+    cout << "expand list" << endl
+         << endl;
     print2DVector(expand);
+    cout << "////////////////////" << endl
+         << endl;
+    cout << "direction list" << endl;
+    print2DVector(policy);
 }

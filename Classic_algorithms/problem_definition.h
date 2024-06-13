@@ -60,6 +60,11 @@ public:
         return this->movementCost_;
     }
 
+    vector<char> getMovementArrows()
+    {
+        return this->movementArrows_;
+    }
+
 private:
     pair<int, int> startPosition_;
     pair<int, int> goalPosition_;
